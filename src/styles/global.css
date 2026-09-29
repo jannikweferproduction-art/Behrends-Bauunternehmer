@@ -446,3 +446,8 @@ body { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom)); }
   .kopf__tel .nummer { display: none; }
   .kopf__marke .logo-voll { height: 4.25rem; }
 }
+
+/* Fußzeilen-Links auf dem Handy leichter antippbar */
+.fuss li a { display: inline-block; padding-block: .6rem; }
+.fuss ul { gap: 0; }
+@media (min-width: 48em) { .fuss li a { padding-block: .25rem; } }
