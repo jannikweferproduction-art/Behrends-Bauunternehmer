@@ -217,7 +217,7 @@ body { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom)); }
 @media (min-width: 40em) { .hero .btn-reihe { display: flex; } }
 @media (min-width: 64em) {
   .hero { min-height: min(calc(100svh - 5.75rem), 58rem); display: grid; }
-  .hero__foto { position: absolute; inset: 0 0 0 max(22%, calc((100% - var(--max)) / 2 + 16rem)); height: auto; }
+  .hero__foto { position: absolute; inset: 0; height: auto; }
   .hero__band { align-self: end; width: min(48rem, 60%); margin: 7rem 0 3.5rem max(var(--rand), calc((100% - var(--max)) / 2 + var(--rand))); padding-bottom: 3rem; }
 }
 
