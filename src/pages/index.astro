@@ -6,7 +6,7 @@ import Icon from '../components/Icon.astro';
 import KontaktAbschnitt from '../components/KontaktAbschnitt.astro';
 import Einzugsgebiet from '../components/Einzugsgebiet.astro';
 import { betrieb, whatsappLink } from '../data/betrieb';
-import heroBild from '../assets/fotos/aussen-03-klinkermauer-abend.jpg';
+import heroBild from '../assets/fotos/hero-maurer-sonnenuntergang.jpg';
 import portrait from '../assets/fotos/portrait-janek-behrends.jpg';
 import detailRollschicht from '../assets/fotos/detail-rollschicht.jpg';
 import detailStufe from '../assets/fotos/detail-stufe.jpg';
@@ -14,7 +14,7 @@ import detailPfeiler from '../assets/fotos/detail-pfeiler.jpg';
 
 const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
 const steinKlasse = ['stein--a', 'stein--b', 'stein--c'];
-const projekte = (await getCollection('projekte')).filter((p) => p.id !== 'klinkermauer-abend').slice(0, 4);
+const projekte = (await getCollection('projekte')).slice(0, 4);
 ---
 <Basis
   titel="Maurer & Bauunternehmen in Wittmund – Besser bauen Behrends"
@@ -23,9 +23,8 @@ const projekte = (await getCollection('projekte')).filter((p) => p.id !== 'klink
 
   <section class="hero" aria-labelledby="hero-titel">
     <div class="hero__foto">
-      <Picture src={heroBild} formats={['avif', 'webp']} widths={[640, 960, 1400, 2000]} sizes="(min-width: 64em) 78vw, 100vw"
-        alt="Gartenmauer mit beleuchteten Klinkerpfeilern vor einem Klinkerhaus am Abend" loading="eager" fetchpriority="high" />
-      <p class="hero__bu">Gartenmauer mit Klinkerpfeilern und Rollschicht</p>
+      <Picture src={heroBild} formats={['avif', 'webp']} widths={[640, 960, 1400, 1695]} sizes="(min-width: 64em) 78vw, 100vw"
+        alt="Maurer im Besser-bauen-Behrends-T-Shirt setzt Klinker an der Richtschnur, dahinter ein eingerüsteter Rohbau im Abendlicht" loading="eager" fetchpriority="high" />
     </div>
     <div class="hero__band">
       <div class="rollschicht" aria-hidden="true"></div>

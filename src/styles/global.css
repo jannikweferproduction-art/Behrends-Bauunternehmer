@@ -206,21 +206,19 @@ body { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom)); }
 
 /* ---------- Hero Startseite ---------- */
 .hero { position: relative; }
-.hero__foto { position: relative; height: clamp(15rem, 58vw, 26rem); overflow: hidden; background: #0D1830; }
-.hero__foto img { width: 100%; height: 100%; object-fit: cover; object-position: 55% 60%; }
+.hero__foto { position: relative; height: clamp(15rem, 58vw, 26rem); overflow: hidden; background: #3A2A1E; }
+.hero__foto img { width: 100%; height: 100%; object-fit: cover; object-position: 100% 40%; }
 .hero__band { position: relative; background: var(--kalk); margin: -2.25rem var(--rand) 0; padding: 0 clamp(1.25rem, 3vw, 3rem) 2.5rem; }
 .hero__band > .rollschicht { margin-inline: calc(-1 * clamp(1.25rem, 3vw, 3rem)); margin-bottom: 1.75rem; }
 .hero h1 { font-size: var(--t-h1); max-width: 14ch; }
 .hero h1 em { font-style: normal; color: var(--klinker); }
 .hero .lead { max-width: 36ch; }
-.hero__bu { position: absolute; right: .75rem; bottom: 2.9rem; font-size: var(--t-xs); color: #fff; background: rgba(20,18,16,.6); padding: .3rem .6rem; }
 .hero .btn-reihe { display: none; }
 @media (min-width: 40em) { .hero .btn-reihe { display: flex; } }
 @media (min-width: 64em) {
   .hero { min-height: min(calc(100svh - 5.75rem), 58rem); display: grid; }
   .hero__foto { position: absolute; inset: 0 0 0 max(22%, calc((100% - var(--max)) / 2 + 16rem)); height: auto; }
   .hero__band { align-self: end; width: min(48rem, 60%); margin: 7rem 0 3.5rem max(var(--rand), calc((100% - var(--max)) / 2 + var(--rand))); padding-bottom: 3rem; }
-  .hero__bu { bottom: 1rem; right: 1rem; }
 }
 
 /* Rollschicht baut sich Stein für Stein auf */
@@ -435,4 +433,16 @@ body { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom)); }
   .kopf__innen { gap: .6rem; }
   .kopf__name { font-size: .95rem; }
   .kopf__marke .logo-mark { height: 2.3rem; }
+}
+
+/* <picture> muss die Höhe fester Bildrahmen weitergeben */
+.hero__foto picture, .stein__bild picture, .projekt__bild picture, .versprechen__bild picture { display: block; height: 100%; }
+
+/* Kleine Laptops/Tablets quer: Navigation einzeilig halten */
+@media (min-width: 64em) and (max-width: 79.99em) {
+  .kopf__innen { gap: 1.25rem; }
+  .nav ul { gap: 1rem; }
+  .nav a { font-size: .9375rem; white-space: nowrap; }
+  .kopf__tel .nummer { display: none; }
+  .kopf__marke .logo-voll { height: 4.25rem; }
 }
