@@ -1,0 +1,28 @@
+---
+import Basis from '../layouts/Basis.astro';
+import { betrieb } from '../data/betrieb';
+---
+<Basis titel="Impressum – Besser bauen Behrends" beschreibung="Impressum von Besser bauen Behrends, Bauunternehmen Janek Behrends, Wittmund.">
+  <section class="abschnitt">
+    <div class="wrap recht">
+      <p class="schicht">Rechtliches</p>
+      <h1 style="font-size:var(--t-h1)">Impressum</h1>
+
+      <h2>Angaben gemäß § 5 DDG</h2>
+      <p>{betrieb.inhaber}<br />{betrieb.name} – {betrieb.zusatz}<br />{betrieb.strasse}<br />{betrieb.plz} {betrieb.ort}</p>
+
+      <h2>Kontakt</h2>
+      <p>Telefon: <a href={betrieb.telefonLink}>{betrieb.telefonAnzeige}</a><br />E-Mail: <a href={`mailto:${betrieb.email}`}>{betrieb.email}</a></p>
+
+      <h2>Angaben zur Berufshaftpflichtversicherung</h2>
+      <p>Name und Sitz des Versicherers:<br />R+V Versicherung AG, Raiffeisenplatz 1, 65189 Wiesbaden</p>
+      <p>Geltungsraum der Versicherung: Deutschland</p>
+
+      <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+      <p>{betrieb.inhaber}, {betrieb.strasse}, {betrieb.plz} {betrieb.ort}</p>
+
+      <h2>Verbraucherstreitbeilegung</h2>
+      <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+    </div>
+  </section>
+</Basis>

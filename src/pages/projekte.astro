@@ -1,0 +1,57 @@
+---
+import { Picture } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Basis from '../layouts/Basis.astro';
+import KontaktAbschnitt from '../components/KontaktAbschnitt.astro';
+
+const projekte = await getCollection('projekte');
+const namen = { 'umbau-sanierung': 'Umbau & Sanierung', 'neubau-rohbau': 'Neubau & Rohbau', aussenanlagen: 'Außenanlagen' } as const;
+const vorhanden = (Object.keys(namen) as (keyof typeof namen)[]).filter((k) => projekte.some((p) => p.data.leistung === k));
+---
+<Basis titel="Projekte – Mauerwerk, Rohbau und Pflaster aus Wittmund | Besser bauen Behrends"
+  beschreibung="Ausgeführte Arbeiten von Besser bauen Behrends: Rohbau, Klinkermauerwerk, Gartenmauern mit Pfeilern, Blockstufen und mehr aus der Region Wittmund.">
+  <section class="seitenkopf">
+    <div class="wrap">
+      <nav class="brotkrumen" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li aria-current="page">Projekte</li></ol></nav>
+      <p class="schicht"><b>04</b>Projekte</p>
+      <h1>Gemauert, betoniert, gepflastert.</h1>
+      <p class="lead">Echte Baustellen, echte Fotos. Achten Sie auf die Details – dort zeigt sich, ob sauber gearbeitet wurde.</p>
+      <div class="filter" role="group" aria-label="Projekte filtern">
+        <button type="button" aria-pressed="true" data-filter="alle">Alle</button>
+        {vorhanden.map((k) => <button type="button" aria-pressed="false" data-filter={k}>{namen[k]}</button>)}
+      </div>
+    </div>
+  </section>
+  <section class="abschnitt" style="padding-top:2rem" aria-label="Projektfotos">
+    <div class="wrap">
+      <p class="sr-only" aria-live="polite" id="filter-status"></p>
+      <div class="projekte">
+        {projekte.map((p) => (
+          <figure class={`projekt projekt--${p.data.format}`} data-leistung={p.data.leistung}>
+            <div class="projekt__bild">
+              <Picture src={p.data.bild} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(min-width: 40em) 55vw, 100vw" alt={p.data.alt} />
+            </div>
+            <figcaption>
+              <span class="pos">{namen[p.data.leistung]}</span>
+              <strong>{p.data.titel}</strong>
+              {(p.data.detail || p.data.ort || p.data.jahr) && <span>{[p.data.detail, p.data.ort, p.data.jahr].filter(Boolean).join(' · ')}</span>}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+  <KontaktAbschnitt titel="Etwas Ähnliches geplant?" text="Schicken Sie ein Foto der Stelle per WhatsApp oder rufen Sie an – dann sprechen wir über Ihr Vorhaben." />
+</Basis>
+<script>
+  const knoepfe = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const projekte = document.querySelectorAll<HTMLElement>('[data-leistung]');
+  const status = document.getElementById('filter-status');
+  knoepfe.forEach((k) => k.addEventListener('click', () => {
+    const f = k.dataset.filter;
+    knoepfe.forEach((b) => b.setAttribute('aria-pressed', String(b === k)));
+    let n = 0;
+    projekte.forEach((p) => { const zeigen = f === 'alle' || p.dataset.leistung === f; p.hidden = !zeigen; if (zeigen) n++; });
+    if (status) status.textContent = `${n} Projekte angezeigt`;
+  }));
+</script>

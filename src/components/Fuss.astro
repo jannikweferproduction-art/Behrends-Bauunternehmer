@@ -1,0 +1,43 @@
+---
+import Logo from './Logo.astro';
+import { betrieb, navigation, whatsappLink } from '../data/betrieb';
+const jahr = new Date().getFullYear();
+---
+<footer class="fuss">
+  <div class="wrap">
+    <div class="fuss__raster">
+      <div>
+        <div class="fuss__logo"><Logo /></div>
+        <p style="margin-top:1.25rem;max-width:30ch">Maurerbetrieb für Umbau, Rohbau und Außenanlagen in Wittmund und Umgebung.</p>
+      </div>
+      <div>
+        <h2>Leistungen</h2>
+        <ul>{navigation.filter((n) => n.gruppe).map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+      </div>
+      <div>
+        <h2>Betrieb</h2>
+        <ul>
+          <li><a href="/projekte/">Projekte</a></li>
+          <li><a href="/ueber-uns/">Über uns</a></li>
+          <li><a href="/kontakt/">Kontakt</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Kontakt</h2>
+        <address style="font-style:normal">
+          <ul>
+            <li>{betrieb.inhaber} · {betrieb.zusatz}</li>
+            <li>{betrieb.strasse}, {betrieb.plz} {betrieb.ort}</li>
+            <li><a href={betrieb.telefonLink}>{betrieb.telefonAnzeige}</a></li>
+            <li><a href={whatsappLink()}>WhatsApp</a></li>
+            <li><a href={`mailto:${betrieb.email}`}>{betrieb.email}</a></li>
+          </ul>
+        </address>
+      </div>
+    </div>
+    <div class="fuss__unten">
+      <p>© {jahr} {betrieb.name}</p>
+      <p><a href="/impressum/">Impressum</a> · <a href="/datenschutz/">Datenschutz</a></p>
+    </div>
+  </div>
+</footer>

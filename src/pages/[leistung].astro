@@ -1,0 +1,108 @@
+---
+import { Picture } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Basis from '../layouts/Basis.astro';
+import Icon from '../components/Icon.astro';
+import KontaktAbschnitt from '../components/KontaktAbschnitt.astro';
+import { betrieb, whatsappLink } from '../data/betrieb';
+
+export async function getStaticPaths() {
+  const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+  return leistungen.map((eintrag) => ({
+    params: { leistung: eintrag.id },
+    props: { eintrag, andere: leistungen.filter((l) => l.id !== eintrag.id) },
+  }));
+}
+
+const { eintrag, andere } = Astro.props;
+const d = eintrag.data;
+const { Content } = await render(eintrag);
+const projekte = (await getCollection('projekte')).filter((p) => p.data.leistung === eintrag.id);
+const brotkrumen = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Start', item: Astro.site?.toString() },
+    { '@type': 'ListItem', position: 2, name: d.titel, item: new URL(`/${eintrag.id}/`, Astro.site).toString() },
+  ],
+};
+const leistungSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: d.titel,
+  description: d.beschreibung,
+  provider: { '@id': `${Astro.site}#betrieb` },
+  areaServed: betrieb.einzugsgebiet.map((o) => ({ '@type': 'City', name: o })),
+};
+---
+<Basis titel={d.seitentitel} beschreibung={d.beschreibung} whatsappText={d.whatsappText}>
+  <script slot="kopf" type="application/ld+json" set:html={JSON.stringify(brotkrumen)} />
+  <script slot="kopf" type="application/ld+json" set:html={JSON.stringify(leistungSchema)} />
+
+  <section class="seitenkopf">
+    <div class="wrap">
+      <nav class="brotkrumen" aria-label="Brotkrumen">
+        <ol><li><a href="/">Start</a></li><li aria-current="page">{d.titel}</li></ol>
+      </nav>
+      <p class="schicht"><b>{String(d.reihenfolge).padStart(2, '0')}</b>{d.titel}</p>
+      <div class="leistung-kopf">
+        <div>
+          <h1>{d.ueberschrift}</h1>
+          <p class="lead">{d.einleitung}</p>
+          <div class="btn-reihe">
+            <a class="btn btn--voll" href={betrieb.telefonLink}><Icon name="telefon" />{betrieb.telefonAnzeige} anrufen</a>
+            <a class="btn btn--linie" href={whatsappLink(d.whatsappText)}><Icon name="whatsapp" />Foto per WhatsApp</a>
+          </div>
+        </div>
+        <div class="leistung-kopf__bild">
+          <Picture src={d.bild} formats={['avif', 'webp']} widths={[560, 900, 1300]} sizes="(min-width: 64em) 42vw, 100vw" alt={d.bildAlt} loading="eager" fetchpriority="high" />
+        </div>
+      </div>
+    </div>
+    <div class="wrap" style="margin-top:2.5rem"><div class="rollschicht" aria-hidden="true"></div></div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="anlass-titel">
+    <div class="wrap zwei-spalten">
+      <div>
+        <h2 id="anlass-titel" class="h2" style="font-size:var(--t-h3)">Typische Anlässe</h2>
+        <ul class="anlaesse">{d.anlaesse.map((a) => <li>{a}</li>)}</ul>
+      </div>
+      <div>
+        <h2 class="h2">Das übernehmen wir</h2>
+        <dl class="leistungsliste">
+          {d.leistungen.map((l) => (<div class="einblenden"><dt>{l.titel}</dt><dd>{l.text}</dd></div>))}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt abschnitt--hell">
+    <div class="wrap zwei-spalten">
+      <div class="fliess"><Content /></div>
+      {projekte.length > 0 && (
+        <div class="projekte" style="margin-top:0">
+          {projekte.slice(0, 2).map((p) => (
+            <figure class="projekt" style="grid-column:auto">
+              <div class="projekt__bild">
+                <Picture src={p.data.bild} formats={['avif', 'webp']} widths={[480, 800]} sizes="(min-width: 64em) 40vw, 100vw" alt={p.data.alt} />
+              </div>
+              <figcaption><strong>{p.data.titel}</strong>{p.data.detail && <span>{p.data.detail}</span>}</figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <KontaktAbschnitt titel={d.kontaktTitel} text={d.kontaktText} whatsappText={d.whatsappText} vorhaben={d.titel} />
+
+  <section class="abschnitt" aria-labelledby="weitere-titel">
+    <div class="wrap">
+      <h2 id="weitere-titel" class="h2" style="font-size:var(--t-h3)">Weitere Leistungen</h2>
+      <div class="weitere">
+        {andere.map((l) => <a href={`/${l.id}/`}>{l.data.titel}<span aria-hidden="true">→</span></a>)}
+      </div>
+    </div>
+  </section>
+</Basis>

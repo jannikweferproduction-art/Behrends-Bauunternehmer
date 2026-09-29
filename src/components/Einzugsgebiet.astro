@@ -1,0 +1,44 @@
+---
+// Schematische Karte: Orte nach echten Koordinaten, Kreis = Umkreis um Wittmund.
+import { betrieb } from '../data/betrieb';
+const orte: Record<string, [number, number]> = {
+  Wittmund: [53.5758, 7.7806],
+  Carolinensiel: [53.6905, 7.8016],
+  Esens: [53.6475, 7.6128],
+  Friedeburg: [53.4528, 7.8319],
+  Jever: [53.5739, 7.8986],
+  Schortens: [53.5372, 7.9497],
+  Wilhelmshaven: [53.5302, 8.1064],
+  Aurich: [53.4714, 7.4836],
+  Wiesmoor: [53.4163, 7.7343],
+};
+const [lat0, lon0] = orte.Wittmund;
+const kmProGradLat = 111.2;
+const kmProGradLon = 111.32 * Math.cos((lat0 * Math.PI) / 180);
+const massstab = 5.5; // Pixel pro km
+const cx = 250, cy = 240;
+const punkt = ([lat, lon]: [number, number]) => [cx + (lon - lon0) * kmProGradLon * massstab, cy - (lat - lat0) * kmProGradLat * massstab];
+const r = betrieb.umkreisKm * massstab;
+const beschriftung: Record<string, 'l' | 'r' | 'u' | 'o'> = { Wittmund: 'l', Aurich: 'l', Esens: 'l', Wiesmoor: 'l', Friedeburg: 'r', Wilhelmshaven: 'u', Schortens: 'l', Jever: 'o', Carolinensiel: 'r' };
+---
+<figure class="gebiet__karte">
+  <svg viewBox="20 10 460 470" role="img" aria-labelledby="karte-titel" xmlns="http://www.w3.org/2000/svg">
+    <title id="karte-titel">Schematische Karte des Einzugsgebiets: rund {betrieb.umkreisKm} Kilometer um Wittmund</title>
+    <circle cx={cx} cy={cy} r={r} fill="rgba(139,58,43,.07)" stroke="#8B3A2B" stroke-width="1.5" stroke-dasharray="6 5" />
+    <circle cx={cx} cy={cy} r={r / 2} fill="none" stroke="#A89F92" stroke-width="1" stroke-dasharray="2 5" />
+    <text x={cx + r * 0.6} y={cy - r * 0.84} font-family="IBM Plex Mono, monospace" font-size="15" fill="#8B3A2B">ca. {betrieb.umkreisKm} km</text>
+    {Object.entries(orte).map(([name, koord]) => {
+      const [x, y] = punkt(koord);
+      const haupt = name === 'Wittmund';
+      const seite = beschriftung[name] ?? 'r';
+      return (
+        <g>
+          {haupt ? <rect x={x - 8} y={y - 8} width="16" height="16" fill="#8B3A2B" /> : <circle cx={x} cy={y} r="6" fill="#1E1C1A" />}
+          <text x={seite === 'r' ? x + 11 : seite === 'l' ? x - (haupt ? 14 : 11) : x} y={seite === 'u' ? y + 25 : seite === 'o' ? y - 12 : y + 6} text-anchor={seite === 'r' ? 'start' : seite === 'l' ? 'end' : 'middle'}
+            font-family="Archivo, sans-serif" font-weight={haupt ? 800 : 600} font-size={haupt ? 22 : 17} fill="#1E1C1A">{name}</text>
+        </g>
+      );
+    })}
+  </svg>
+  <figcaption class="sr-only">Orte im Einzugsgebiet: {betrieb.einzugsgebiet.join(', ')}</figcaption>
+</figure>

@@ -1,0 +1,25 @@
+---
+import Basis from '../layouts/Basis.astro';
+import KontaktAbschnitt from '../components/KontaktAbschnitt.astro';
+import Einzugsgebiet from '../components/Einzugsgebiet.astro';
+import { betrieb } from '../data/betrieb';
+---
+<Basis titel="Kontakt – Besser bauen Behrends, Bauunternehmen in Wittmund"
+  beschreibung="Kontakt zu Besser bauen Behrends: Telefon 0172 4300736, WhatsApp, E-Mail oder Anfrageformular. An den Eichen 19, 26409 Wittmund.">
+  <div class="wrap seitenkopf" style="padding-bottom:2rem">
+    <nav class="brotkrumen" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li aria-current="page">Kontakt</li></ol></nav>
+  </div>
+  <KontaktAbschnitt ueberschriftEbene="h1" titel="Erzählen Sie kurz, was gemacht werden soll." />
+  <section class="abschnitt abschnitt--hell" aria-labelledby="anschrift-titel">
+    <div class="wrap gebiet">
+      <div>
+        <h2 id="anschrift-titel" class="h2">Anschrift</h2>
+        <address class="lead" style="font-style:normal">
+          {betrieb.name}<br />{betrieb.inhaber} · {betrieb.zusatz}<br />{betrieb.strasse}<br />{betrieb.plz} {betrieb.ort}
+        </address>
+        <p style="margin-top:1.5rem;color:var(--grau)">Einzugsgebiet: rund {betrieb.umkreisKm} km um Wittmund – {betrieb.einzugsgebiet.join(', ')}.</p>
+      </div>
+      <Einzugsgebiet />
+    </div>
+  </section>
+</Basis>

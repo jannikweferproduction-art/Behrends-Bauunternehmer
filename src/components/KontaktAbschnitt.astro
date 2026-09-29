@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import portrait from '../assets/fotos/portrait-janek-behrends.jpg';
+import { betrieb, whatsappLink } from '../data/betrieb';
+
+interface Props {
+  nr?: string;
+  titel?: string;
+  text?: string;
+  whatsappText?: string;
+  vorhaben?: string;
+  ueberschriftEbene?: 'h1' | 'h2';
+}
+const {
+  nr = '',
+  titel = 'Erzählen Sie kurz, was gemacht werden soll.',
+  text = 'Am schnellsten geht es per Telefon oder WhatsApp – gern mit einem Foto der Stelle. Wer lieber schreibt, nutzt das Formular.',
+  whatsappText,
+  vorhaben = '',
+  ueberschriftEbene = 'h2',
+} = Astro.props;
+const Ueberschrift = ueberschriftEbene;
+const FormTitel = ueberschriftEbene === 'h1' ? 'h2' : 'h3';
+const arten = ['Umbau & Sanierung', 'Neubau & Rohbau', 'Außenanlagen & Entwässerung', 'Sonstiges'];
+---
+<section class="abschnitt abschnitt--dunkel" id="kontakt" aria-labelledby="kontakt-titel">
+  <div class="wrap kontakt">
+    <div>
+      <p class="schicht">{nr && <b>{nr}</b>}Kontakt</p>
+      <Ueberschrift id="kontakt-titel" class="h2">{titel}</Ueberschrift>
+      <p class="lead">{text}</p>
+      <div class="kontakt__wege">
+        <a class="kontakt__weg" href={betrieb.telefonLink}>
+          <Icon name="telefon" /><small>Anrufen</small><strong>{betrieb.telefonAnzeige}</strong>
+        </a>
+        <a class="kontakt__weg" href={whatsappLink(whatsappText)}>
+          <Icon name="whatsapp" /><small>WhatsApp – gern mit Foto</small><strong>Nachricht schreiben</strong>
+        </a>
+        <a class="kontakt__weg" href={`mailto:${betrieb.email}`}>
+          <Icon name="mail" /><small>E-Mail</small><strong>{betrieb.email}</strong>
+        </a>
+      </div>
+      <div class="kontakt__person">
+        <Image src={portrait} alt="" width={144} height={144} loading="lazy" />
+        <p><strong>Sie sprechen direkt mit {betrieb.inhaber}.</strong>{betrieb.beruf} und Inhaber, {betrieb.strasse}, {betrieb.plz} {betrieb.ort}</p>
+      </div>
+    </div>
+
+    <form class="formular" action="/kontakt.php" method="post">
+      <FormTitel class="formular__titel">Anfrage schreiben</FormTitel>
+      <p class="meldung" data-formular-fehler hidden role="alert">Die Anfrage konnte nicht gesendet werden. Bitte prüfen Sie Ihre Angaben – oder rufen Sie direkt an: <a href={betrieb.telefonLink}>{betrieb.telefonAnzeige}</a>.</p>
+      <div class="feld-paar">
+        <div class="feld">
+          <label for="f-name">Name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="feld">
+          <label for="f-telefon">Telefon <span class="hinweis">für Rückfragen</span></label>
+          <input id="f-telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required />
+        </div>
+      </div>
+      <div class="feld-paar">
+        <div class="feld">
+          <label for="f-email">E-Mail <span class="hinweis">(optional)</span></label>
+          <input id="f-email" name="email" type="email" autocomplete="email" />
+        </div>
+        <div class="feld">
+          <label for="f-ort">Ort des Vorhabens</label>
+          <input id="f-ort" name="ort" type="text" autocomplete="address-level2" required />
+        </div>
+      </div>
+      <div class="feld">
+        <label for="f-art">Art des Vorhabens</label>
+        <select id="f-art" name="art" required>
+          <option value="">Bitte wählen</option>
+          {arten.map((a) => <option selected={a === vorhaben}>{a}</option>)}
+        </select>
+      </div>
+      <div class="feld">
+        <label for="f-nachricht">Was soll gemacht werden?</label>
+        <textarea id="f-nachricht" name="nachricht" required></textarea>
+      </div>
+      <div class="feld">
+        <label for="f-zeitraum">Gewünschter Zeitraum <span class="hinweis">(optional)</span></label>
+        <input id="f-zeitraum" name="zeitraum" type="text" placeholder="z. B. Frühjahr 2027" />
+      </div>
+      <div class="honig" aria-hidden="true">
+        <label for="f-webseite">Bitte leer lassen</label>
+        <input id="f-webseite" name="webseite" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+      <p class="klein">Ihre Angaben werden nur zur Bearbeitung Ihrer Anfrage verwendet. Mehr dazu in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+      <button class="btn btn--voll" type="submit">Anfrage senden</button>
+    </form>
+  </div>
+</section>
+<script>
+  if (new URLSearchParams(location.search).has('fehler')) {
+    document.querySelectorAll<HTMLElement>('[data-formular-fehler]').forEach((m) => { m.hidden = false; });
+  }
+</script>

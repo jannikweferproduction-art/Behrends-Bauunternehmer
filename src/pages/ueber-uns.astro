@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import Basis from '../layouts/Basis.astro';
+import KontaktAbschnitt from '../components/KontaktAbschnitt.astro';
+import Icon from '../components/Icon.astro';
+import { betrieb } from '../data/betrieb';
+import portrait from '../assets/fotos/portrait-janek-behrends.jpg';
+import pfeiler from '../assets/fotos/aussen-01-schaukel-klinkerpfeiler.jpg';
+---
+<Basis titel="Über uns – Janek Behrends, Maurer aus Wittmund | Besser bauen Behrends"
+  beschreibung="Besser bauen Behrends ist ein Bauunternehmen aus Wittmund, gegründet im November 2023 von Maurer Janek Behrends. Ein Betrieb, ein Ansprechpartner.">
+  <section class="seitenkopf">
+    <div class="wrap">
+      <nav class="brotkrumen" aria-label="Brotkrumen"><ol><li><a href="/">Start</a></li><li aria-current="page">Über uns</li></ol></nav>
+      <p class="schicht"><b>05</b>Über uns</p>
+      <h1>Ein Betrieb, ein Ansprechpartner.</h1>
+    </div>
+  </section>
+  <section class="abschnitt" style="padding-top:3rem">
+    <div class="wrap person">
+      <div>
+        <div class="person__bild">
+          <Image src={portrait} alt="Porträt von Janek Behrends in Arbeitskleidung mit Firmenlogo" widths={[480, 800]} sizes="(min-width: 48em) 40vw, 100vw" loading="eager" />
+        </div>
+        <p class="person__name">{betrieb.inhaber}</p>
+        <p class="person__rolle">{betrieb.beruf} und Inhaber</p>
+      </div>
+      <div class="fliess">
+        <p class="lead" style="margin-top:0">{betrieb.inhaber} ist gelernter Maurer. Im {betrieb.gruendung} hat er in Wittmund sein eigenes Bauunternehmen gegründet: Besser bauen Behrends.</p>
+        <h2>Warum „Besser bauen“?</h2>
+        <p>Der Name ist ein Anspruch, kein Werbespruch. Er zeigt sich dort, wo man genau hinsehen muss: an der Rollschicht über dem Fenster, am Anschluss der Stufe an die Fassade, an Pfeilern, die Lage für Lage sauber gesetzt sind.</p>
+        <h2>Wie wir arbeiten</h2>
+        <p>Bei uns gibt es kein Büro, das Anfragen weiterreicht. Sie sprechen mit Janek Behrends – am Telefon, bei der Besichtigung und auf der Baustelle. Fragen werden dort geklärt, wo sie entstehen.</p>
+        <p>Wir sind in Wittmund zu Hause und arbeiten in der Region: im Landkreis Wittmund und in den Nachbarkreisen, von Esens bis Wilhelmshaven, von Aurich bis Jever.</p>
+        <h2>Versichert</h2>
+        <p>Der Betrieb ist über eine Betriebshaftpflichtversicherung bei der R+V Versicherung AG abgesichert, Geltungsbereich Deutschland.</p>
+      </div>
+    </div>
+  </section>
+  <section class="abschnitt abschnitt--hell" aria-labelledby="mit-titel">
+    <div class="wrap zwei-spalten" style="align-items:center">
+      <div class="versprechen__bild" style="aspect-ratio:4/3">
+        <Image src={pfeiler} alt="Gemauerte Klinkerpfeiler einer Hollywoodschaukel im Garten" widths={[480, 800]} sizes="(min-width: 64em) 40vw, 100vw" />
+      </div>
+      <div>
+        <p class="schicht">Mitarbeit</p>
+        <h2 id="mit-titel" class="h2">Lust, mitzumauern?</h2>
+        <p class="lead">Wir sind ein junger Betrieb und freuen uns über Maurer, Helfer und Auszubildende aus der Region. Ein Bewerbungsschreiben brauchen Sie dafür nicht – rufen Sie einfach an.</p>
+        <div class="btn-reihe">
+          <a class="btn btn--voll" href={betrieb.telefonLink}><Icon name="telefon" />{betrieb.telefonAnzeige} anrufen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <KontaktAbschnitt />
+</Basis>

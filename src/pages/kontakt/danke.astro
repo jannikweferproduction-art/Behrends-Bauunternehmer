@@ -1,0 +1,18 @@
+---
+import Basis from '../../layouts/Basis.astro';
+import Icon from '../../components/Icon.astro';
+import { betrieb } from '../../data/betrieb';
+---
+<Basis titel="Danke für Ihre Anfrage – Besser bauen Behrends" beschreibung="Ihre Anfrage ist angekommen." keinIndex>
+  <section class="abschnitt">
+    <div class="wrap">
+      <div class="rollschicht" aria-hidden="true" style="max-width:24rem;margin-bottom:2rem"></div>
+      <h1 style="font-size:var(--t-h1);max-width:16ch">Danke – Ihre Anfrage ist angekommen.</h1>
+      <p class="lead">Janek Behrends meldet sich bei Ihnen. Wenn es eilt, rufen Sie gern direkt an.</p>
+      <div class="btn-reihe">
+        <a class="btn btn--voll" href={betrieb.telefonLink}><Icon name="telefon" />{betrieb.telefonAnzeige} anrufen</a>
+        <a class="btn btn--linie" href="/">Zur Startseite</a>
+      </div>
+    </div>
+  </section>
+</Basis>

@@ -1,0 +1,52 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { betrieb, navigation } from '../data/betrieb';
+const pfad = Astro.url.pathname;
+const leistungen = navigation.filter((n) => n.gruppe === 'leistungen');
+const rest = navigation.filter((n) => !n.gruppe);
+---
+<header class="kopf">
+  <div class="wrap kopf__innen">
+    <a class="kopf__marke" href="/" aria-label="Besser bauen Behrends – zur Startseite">
+      <Logo class="logo-voll" />
+      <Logo variante="mark" class="logo-mark" />
+      <span class="kopf__name" aria-hidden="true">Besser bauen Behrends<small>Bauunternehmen</small></span>
+    </a>
+    <nav class="nav" id="hauptnavigation" aria-label="Hauptnavigation">
+      <ul>
+        <li class="nav__gruppe" aria-hidden="true">Leistungen</li>
+        {leistungen.map((n) => (
+          <li class="nav__leistung"><a href={n.href} aria-current={pfad === n.href ? 'page' : undefined}>{n.label}</a></li>
+        ))}
+        <li class="nav__gruppe" aria-hidden="true">Betrieb</li>
+        {rest.map((n) => (
+          <li><a href={n.href} aria-current={pfad === n.href ? 'page' : undefined}>{n.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="kopf__tel">
+      <a class="btn" href={betrieb.telefonLink} aria-label={`Anrufen: ${betrieb.telefonAnzeige}`}>
+        <Icon name="telefon" /><span class="nummer">{betrieb.telefonAnzeige}</span>
+      </a>
+    </div>
+    <button class="menue-knopf" type="button" aria-expanded="false" aria-controls="hauptnavigation">
+      <span class="menue-auf"><Icon name="menue" /></span><span class="menue-text">Menü</span>
+    </button>
+  </div>
+</header>
+<script>
+  const knopf = document.querySelector<HTMLButtonElement>('.menue-knopf');
+  const nav = document.getElementById('hauptnavigation');
+  const text = knopf?.querySelector('.menue-text');
+  const setze = (offen: boolean) => {
+    if (!knopf || !nav) return;
+    knopf.setAttribute('aria-expanded', String(offen));
+    nav.toggleAttribute('data-offen', offen);
+    if (text) text.textContent = offen ? 'Schließen' : 'Menü';
+  };
+  knopf?.addEventListener('click', () => setze(knopf.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && knopf?.getAttribute('aria-expanded') === 'true') { setze(false); knopf.focus(); }
+  });
+</script>

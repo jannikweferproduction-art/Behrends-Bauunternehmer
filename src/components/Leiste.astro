@@ -1,0 +1,10 @@
+---
+import Icon from './Icon.astro';
+import { betrieb, whatsappLink } from '../data/betrieb';
+interface Props { whatsappText?: string }
+const { whatsappText } = Astro.props;
+---
+<nav class="leiste" aria-label="Schnellkontakt">
+  <a href={betrieb.telefonLink}><Icon name="telefon" />Anrufen</a>
+  <a href={whatsappLink(whatsappText)}><Icon name="whatsapp" />WhatsApp</a>
+</nav>
