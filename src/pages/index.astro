@@ -1,0 +1,149 @@
+---
+import { Picture, Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Basis from '../layouts/Basis.astro';
+import Icon from '../components/Icon.astro';
+import KontaktAbschnitt from '../components/KontaktAbschnitt.astro';
+import Einzugsgebiet from '../components/Einzugsgebiet.astro';
+import { betrieb, whatsappLink } from '../data/betrieb';
+import heroBild from '../assets/fotos/aussen-03-klinkermauer-abend.jpg';
+import portrait from '../assets/fotos/portrait-janek-behrends.jpg';
+import detailRollschicht from '../assets/fotos/detail-rollschicht.jpg';
+import detailStufe from '../assets/fotos/detail-stufe.jpg';
+import detailPfeiler from '../assets/fotos/detail-pfeiler.jpg';
+
+const leistungen = (await getCollection('leistungen')).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+const steinKlasse = ['stein--a', 'stein--b', 'stein--c'];
+const projekte = (await getCollection('projekte')).filter((p) => p.id !== 'klinkermauer-abend').slice(0, 4);
+---
+<Basis
+  titel="Maurer & Bauunternehmen in Wittmund – Besser bauen Behrends"
+  beschreibung="Umbau, Sanierung, Rohbau und Außenanlagen in Wittmund und Umgebung. Janek Behrends ist gelernter Maurer und arbeitet selbst auf der Baustelle. Telefon 0172 4300736."
+>
+
+  <section class="hero" aria-labelledby="hero-titel">
+    <div class="hero__foto">
+      <Picture src={heroBild} formats={['avif', 'webp']} widths={[640, 960, 1400, 2000]} sizes="(min-width: 64em) 78vw, 100vw"
+        alt="Gartenmauer mit beleuchteten Klinkerpfeilern vor einem Klinkerhaus am Abend" loading="eager" fetchpriority="high" />
+      <p class="hero__bu">Gartenmauer mit Klinkerpfeilern und Rollschicht</p>
+    </div>
+    <div class="hero__band">
+      <div class="rollschicht" aria-hidden="true"></div>
+      <p class="schicht"><b>01</b>Maurerbetrieb in Wittmund</p>
+      <h1 id="hero-titel">Besser bauen heißt: sauber bis zur <em>letzten Fuge.</em></h1>
+      <p class="lead">Umbau, Sanierung, Rohbau und Außenanlagen in Wittmund und Umgebung – vom Maurer, der selbst auf der Baustelle steht.</p>
+      <div class="btn-reihe">
+        <a class="btn btn--voll" href={betrieb.telefonLink}><Icon name="telefon" />{betrieb.telefonAnzeige} anrufen</a>
+        <a class="btn btn--linie" href={whatsappLink()}><Icon name="whatsapp" />Foto per WhatsApp schicken</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="leistungen-titel">
+    <div class="wrap">
+      <p class="schicht"><b>02</b>Leistungen</p>
+      <h2 id="leistungen-titel" class="h2">Was wir für Ihr Haus und Grundstück tun</h2>
+      <div class="verband">
+        {leistungen.map((l, i) => (
+          <a class={`stein ${steinKlasse[i]} einblenden`} href={`/${l.id}/`}>
+            <div class="stein__bild">
+              <Picture src={l.data.bild} formats={['avif', 'webp']} widths={[480, 800, 1100]} sizes="(min-width: 48em) 40vw, 100vw" alt="" />
+            </div>
+            <div class="stein__text">
+              <span class="stein__nr">{String(i + 1).padStart(2, '0')} / 03</span>
+              <h3>{l.data.titel}</h3>
+              <ul>{l.data.anlaesse.slice(0, 3).map((a) => <li>{a}</li>)}</ul>
+              <span class="pfeil-link">Mehr erfahren<span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt abschnitt--dunkel" aria-labelledby="versprechen-titel">
+    <div class="wrap">
+      <p class="schicht"><b>03</b>Unser Anspruch</p>
+      <h2 id="versprechen-titel" class="h2">Besser bauen heißt …</h2>
+      <div class="versprechen">
+        {[
+          { bild: detailRollschicht, pos: 'Pos. 1 · Rollschicht über dem Fenster', alt: 'Klinkerfassade mit hochkant gesetzter Rollschicht über einem Fenster', titel: '… sauber bis zur letzten Fuge.', text: 'Eine gerade Rollschicht, gleichmäßige Fugen, saubere Ecken. Das sieht man jeden Tag – darauf achten wir.' },
+          { bild: detailStufe, pos: 'Pos. 2 · Stufe, Fassade, Pflaster', alt: 'Anschluss einer dunklen Blockstufe an Klinkerfassade und Pflaster', titel: '… Anschlüsse, über die niemand stolpert.', text: 'Wo Stufe, Fassade und Pflaster zusammenkommen, entscheidet sich, ob Wasser abläuft und alles bündig sitzt.' },
+          { bild: detailPfeiler, pos: 'Pos. 3 · Pfeiler, Lage für Lage gedreht', alt: 'Klinkerpfeiler, bei dem jede Lage leicht verdreht gemauert ist', titel: '… auch mal mehr als eine gerade Wand.', text: 'Gedrehte Pfeiler, Rollschichten, Blockstufen: Wenn es etwas Besonderes sein soll, sprechen Sie uns an.' },
+        ].map((v) => (
+          <article class="versprechen__item einblenden">
+            <div class="versprechen__bild">
+              <Image src={v.bild} alt={v.alt} widths={[400, 700]} sizes="(min-width: 48em) 30vw, 100vw" />
+              <span class="pos">{v.pos}</span>
+            </div>
+            <h3>{v.titel}</h3>
+            <p>{v.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="projekte-titel">
+    <div class="wrap">
+      <p class="schicht"><b>04</b>Projekte</p>
+      <h2 id="projekte-titel" class="h2">Gemauert, betoniert, gepflastert</h2>
+      <div class="projekte projekte--start">
+        {projekte.map((p) => (
+          <figure class={`projekt projekt--${p.data.format} einblenden`}>
+            <div class="projekt__bild">
+              <Picture src={p.data.bild} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(min-width: 64em) 50vw, 100vw" alt={p.data.alt} />
+            </div>
+            <figcaption><strong>{p.data.titel}</strong>{p.data.detail && <span>{p.data.detail}</span>}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <p style="margin-top:3rem"><a class="pfeil-link" href="/projekte/">Alle Projekte ansehen<span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <section class="abschnitt abschnitt--hell" aria-labelledby="person-titel">
+    <div class="wrap person">
+      <div class="person__bild einblenden">
+        <Image src={portrait} alt="Porträt von Janek Behrends, Maurer und Inhaber" widths={[480, 800]} sizes="(min-width: 48em) 40vw, 100vw" />
+      </div>
+      <div>
+        <p class="schicht"><b>05</b>Der Mann an der Kelle</p>
+        <h2 id="person-titel" class="h2">Ein Betrieb, ein Ansprechpartner.</h2>
+        <div class="fliess" style="margin-top:1.5rem">
+          <p>{betrieb.inhaber} ist gelernter Maurer. Im {betrieb.gruendung} hat er in Wittmund seinen eigenen Betrieb gegründet: <strong>Besser bauen Behrends</strong>.</p>
+          <p>Der Name ist Programm. Wer hier anruft, spricht nicht mit einem Büro, sondern mit dem Mann, der die Arbeit macht – von der ersten Besichtigung bis zur letzten Fuge.</p>
+        </div>
+        <p style="margin-top:2rem"><a class="pfeil-link" href="/ueber-uns/">Mehr über uns<span aria-hidden="true">→</span></a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="ablauf-titel">
+    <div class="wrap">
+      <p class="schicht"><b>06</b>Ablauf</p>
+      <h2 id="ablauf-titel" class="h2">So läuft's ab</h2>
+      <ol class="ablauf">
+        <li class="einblenden"><h3>Anrufen oder Foto schicken</h3><p>Kurz beschreiben, was gemacht werden soll – am Telefon oder per WhatsApp mit einem Foto der Stelle.</p></li>
+        <li class="einblenden"><h3>Termin vor Ort</h3><p>Janek Behrends sieht sich die Stelle an und bespricht mit Ihnen, was möglich ist.</p></li>
+        <li class="einblenden"><h3>Schriftliches Angebot</h3><p>Sie bekommen ein Angebot mit klar beschriebenem Leistungsumfang.</p></li>
+        <li class="einblenden"><h3>Ausführung</h3><p>Gemauert, betoniert oder gepflastert – mit dem Inhaber selbst auf der Baustelle.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="abschnitt abschnitt--hell" aria-labelledby="gebiet-titel">
+    <div class="wrap gebiet">
+      <div>
+        <p class="schicht"><b>07</b>Einzugsgebiet</p>
+        <h2 id="gebiet-titel" class="h2">Aus Wittmund, für die Region.</h2>
+        <p class="lead">Wir arbeiten im Landkreis Wittmund und in den Nachbarkreisen – im Umkreis von rund {betrieb.umkreisKm} Kilometern um unseren Sitz.</p>
+        <ul class="gebiet__orte">{betrieb.einzugsgebiet.map((o) => <li>{o}</li>)}</ul>
+        <p style="margin-top:1.5rem;color:var(--grau)">Ihr Ort ist nicht dabei? Fragen Sie einfach nach.</p>
+      </div>
+      <Einzugsgebiet />
+    </div>
+  </section>
+
+  <KontaktAbschnitt nr="08" />
+</Basis>

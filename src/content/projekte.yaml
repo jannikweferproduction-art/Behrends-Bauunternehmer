@@ -1,0 +1,38 @@
+# Projektliste – neues Projekt: Eintrag kopieren, Foto in src/assets/fotos/ legen, Pfad anpassen.
+# leistung: umbau-sanierung | neubau-rohbau | aussenanlagen
+# format: quer | hoch | quadrat   (ort und jahr sind optional)
+- id: klinkermauer-abend
+  titel: Gartenmauer mit Klinkerpfeilern
+  leistung: aussenanlagen
+  bild: ../assets/fotos/aussen-03-klinkermauer-abend.jpg
+  alt: Gartenmauer mit beleuchteten Klinkerpfeilern und Metallzaun vor einem Klinkerhaus am Abend
+  detail: Rollschicht als Abdeckung, beleuchtete Pfeiler
+  format: quer
+- id: rohbau-bungalow
+  titel: Rohbau eines Bungalows
+  leistung: neubau-rohbau
+  bild: ../assets/fotos/neubau-01-rohbau-bungalow.jpg
+  alt: Rohbau eines Bungalows aus hellen Plansteinen mit Fensteröffnungen
+  detail: Erdgeschoss-Mauerwerk mit Öffnungen und Stürzen
+  format: quadrat
+- id: klinkerfassade
+  titel: Klinker-Verblendmauerwerk
+  leistung: neubau-rohbau
+  bild: ../assets/fotos/mauerwerk-01-klinkerfassade.jpg
+  alt: Rotbuntes Klinkermauerwerk mit Rollschicht über einem Fenster, davor Bockgerüst und Leitern
+  detail: Rollschicht über dem Fenster
+  format: hoch
+- id: blockstufe
+  titel: Blockstufe vor der Terrassentür
+  leistung: aussenanlagen
+  bild: ../assets/fotos/aussen-02-blockstufe-terrassentuer.jpg
+  alt: Dunkle Blockstufe vor einer Terrassentür, angeschlossen an Klinkerfassade und Pflaster
+  detail: Auf Mörtelbett gesetzt, Anschluss an Fassade und Pflaster
+  format: quer
+- id: schaukel-pfeiler
+  titel: Klinkerpfeiler für eine Hollywoodschaukel
+  leistung: aussenanlagen
+  bild: ../assets/fotos/aussen-01-schaukel-klinkerpfeiler.jpg
+  alt: Hollywoodschaukel zwischen vier gemauerten Klinkerpfeilern im Garten
+  detail: Pfeiler Lage für Lage leicht verdreht gemauert
+  format: quer

@@ -1,0 +1,38 @@
+---
+// Logo „besser bauen BEHRENDS“ als Vektorgrafik, nachgezeichnet vom Original.
+interface Props { variante?: 'voll' | 'mark'; class?: string; tinte?: string }
+const { variante = 'voll', class: klasse, tinte = '#141414' } = Astro.props;
+const rot = '#FF1828';
+---
+{variante === 'mark' ? (
+  <svg class={klasse} viewBox="30 20 500 385" role="img" aria-label="Besser bauen Behrends" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="48,398 48,152 160,38 478,242 478,332" fill="none" stroke={rot} stroke-width="26" />
+    <path d="M172 190 C200 140 230 108 262 98 C290 92 322 110 342 138 C300 150 240 170 172 190Z" fill={tinte} />
+    <line x1="300" y1="112" x2="350" y2="78" stroke={tinte} stroke-width="11" stroke-linecap="round" />
+    <line x1="350" y1="76" x2="500" y2="50" stroke={tinte} stroke-width="34" stroke-linecap="round" />
+    <rect x="80" y="214" width="76" height="52" rx="4" fill={tinte} />
+    <rect x="80" y="278" width="13" height="50" rx="3" fill={tinte} />
+    <rect x="105" y="278" width="118" height="50" rx="4" fill={tinte} />
+    <rect x="80" y="340" width="66" height="50" rx="4" fill={tinte} />
+    <rect x="160" y="340" width="118" height="50" rx="4" fill={tinte} />
+  </svg>
+) : (
+  <svg class={klasse} viewBox="30 20 680 505" role="img" aria-label="Besser bauen Behrends – Bauunternehmen" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="48,398 48,152 160,38 478,242 478,332" fill="none" stroke={rot} stroke-width="26" />
+    <path d="M172 190 C200 140 230 108 262 98 C290 92 322 110 342 138 C300 150 240 170 172 190Z" fill={tinte} />
+    <line x1="300" y1="112" x2="350" y2="78" stroke={tinte} stroke-width="11" stroke-linecap="round" />
+    <line x1="350" y1="76" x2="500" y2="50" stroke={tinte} stroke-width="34" stroke-linecap="round" />
+    <rect x="80" y="214" width="76" height="52" rx="4" fill={tinte} />
+    <rect x="80" y="278" width="13" height="50" rx="3" fill={tinte} />
+    <rect x="105" y="278" width="118" height="50" rx="4" fill={tinte} />
+    <rect x="80" y="340" width="66" height="50" rx="4" fill={tinte} />
+    <rect x="160" y="340" width="118" height="50" rx="4" fill={tinte} />
+    <g font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-weight="700" fill={tinte}>
+      <text x="176" y="264" font-size="74" letter-spacing="-1.5">besser</text>
+      <text x="243" y="326" font-size="74" letter-spacing="-1.5">bauen</text>
+      <text x="296" y="388" font-size="76" letter-spacing="-2">BEHRENDS</text>
+      <rect x="47" y="410" width="643" height="106" fill="#fff" stroke={rot} stroke-width="12" />
+      <text x="368" y="492" font-size="82" text-anchor="middle" letter-spacing="-1.5">Bauunternehmen</text>
+    </g>
+  </svg>
+)}

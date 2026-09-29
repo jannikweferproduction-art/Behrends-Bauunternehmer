@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://besserbauenbehrends.de/sitemap-index.xml
